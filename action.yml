@@ -1,0 +1,15 @@
+name: Release Builder
+author: carlosdevpereira
+description: Creates release pull requests that, when merged, generate a release with a proper tag and changelog.
+branding:
+  color: gray-dark
+  icon: tag
+
+runs:
+  using: "node16"
+  main: "dist/index.js"
+
+inputs:
+  githubToken:
+    description: "The github token that will be used to authenticate with the github API."
+    required: true
