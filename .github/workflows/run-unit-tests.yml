@@ -1,0 +1,40 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  run-unit-tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7
+
+      - name: Setup Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+
+      - name: Install dependencies 📦
+        run: pnpm install
+
+      - name: Test & Publish to Cloudflare
+        uses: carlosdevpereira/test-publish-to-cloudflare@v1.5.1
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          cloudflareProjectName: release-builder
+          cloudflareApiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          cloudflareAccountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          baseCloudflareDeploymentUrl: release-builder.pages.dev
