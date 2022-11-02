@@ -1,18 +1,28 @@
 import * as core from '@actions/core';
 
+const GITHUB_TOKEN = core.getInput('github-token', { required: true });
+const RELEASE_TYPE = core.getInput('release-type', { required: true });
+const TARGET_BRANCH = core.getInput('target-branch', { required: true });
+
+const SUFFIX = core.getInput('suffix');
+const IS_PRE_RELEASE = core.getInput('pre-release') === 'true';
+const CHANGELOG_SECTIONS = core.getInput('changelog-sections', {
+  required: false
+});
+
 export default {
   github: {
-    token: core.getInput('github-token', { required: true })
+    token: GITHUB_TOKEN
   },
   release: {
-    type: core.getInput('release-type', { required: true }),
-    preRelease: core.getInput('pre-release', { required: false }),
-    targetBranch: core.getInput('target-branch', { required: true })
+    type: RELEASE_TYPE,
+    preRelease: IS_PRE_RELEASE,
+    targetBranch: TARGET_BRANCH
   },
   version: {
-    suffix: core.getInput('suffix', { required: false })
+    suffix: IS_PRE_RELEASE && SUFFIX === '' ? '-rc' : SUFFIX
   },
   changelog: {
-    sections: core.getInput('changelog-sections', { required: false })
+    sections: CHANGELOG_SECTIONS
   }
 };
