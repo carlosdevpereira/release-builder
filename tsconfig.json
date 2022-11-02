@@ -1,26 +1,23 @@
 {
   "compilerOptions": {
+    "target": "es6",
     "module": "commonjs",
-    "types": ["node", "jest"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "target": "es2017",
-    "noImplicitAny": true,
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "dist",
     "baseUrl": ".",
+    "strict": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
     "paths": {
       "*": ["node_modules/*", "src/types/*"],
       "@/*": ["src/*"],
       "@tests/*": ["tests/*"]
     }
   },
-  "include": ["src/**/*", "tests/index.spec.ts", "tests/index.spec.ts"]
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }
