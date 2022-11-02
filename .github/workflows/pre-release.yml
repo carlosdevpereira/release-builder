@@ -1,0 +1,41 @@
+name: Pre Release
+
+on:
+  push:
+    branches:
+      - "development"
+
+jobs:
+  generate-pre-release:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7
+
+      - name: Setup Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+
+      - name: Install dependencies 📦
+        run: pnpm install
+
+      - name: Build action
+        run: pnpm build
+
+      - name: Generate pre-release
+        uses: ./
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          release-type: node
+          target-branch: main
