@@ -10,6 +10,12 @@ runs:
   main: "dist/index.js"
 
 inputs:
-  githubToken:
+  github-token:
     description: "The github token that will be used to authenticate with the github API."
+    required: true
+  release-type:
+    description: "The type of project that will generate a release. Valid values are: node, text"
+    required: true
+  target-branch:
+    description: "The name of the branch that will be targetted by release PR's."
     required: true
