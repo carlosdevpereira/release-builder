@@ -1,7 +1,7 @@
 import github from '@actions/github';
 import Inputs from '@/config/Inputs';
 import GetLatestTagQuery from '@/graphql/GetLatestTag.query';
-import core from '@actions/core';
+import * as core from '@actions/core';
 
 export default class TagService {
   static async getLatestTag() {
