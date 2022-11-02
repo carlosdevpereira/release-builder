@@ -1,6 +1,6 @@
-import github from '@actions/github';
 import Inputs from '@/config/Inputs';
 import GetLatestTagQuery from '@/graphql/GetLatestTag.query';
+import * as github from '@actions/github';
 import * as core from '@actions/core';
 
 export default class TagService {

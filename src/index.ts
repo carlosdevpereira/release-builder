@@ -1,5 +1,5 @@
 import './config/Inputs';
-import core from '@actions/core';
+import * as core from '@actions/core';
 import TagService from './services/TagService';
 
 async function run() {
