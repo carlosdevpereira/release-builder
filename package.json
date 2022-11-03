@@ -9,7 +9,7 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "test": "jest",
     "build": "tsc",
-    "package": "ncc build --source-map --license licenses.txt"
+    "package": "ncc build --no-source-map-register --license licenses.txt --minify"
   },
   "keywords": [],
   "author": "carlosdevpereira",
