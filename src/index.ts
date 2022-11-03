@@ -5,10 +5,7 @@ import GithubConfig from './config/GithubConfig';
 
 async function run() {
   try {
-    console.log(
-      'Latest tag: ',
-      await Tags.getLatestForBranch(GithubConfig.branch)
-    );
+    console.log('Latest tag: ', await Tags.getLatest());
   } catch (error: unknown) {
     if (!(error instanceof Error)) return;
 
