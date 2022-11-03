@@ -6,7 +6,6 @@ const config: Config = {
   verbose: true,
   automock: true,
   transformIgnorePatterns: ['/node_modules/'],
-  setupFilesAfterEnv: ['<rootDir>/tests/jest-setup.ts'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@tests/(.*)$': '<rootDir>/tests/$1'
