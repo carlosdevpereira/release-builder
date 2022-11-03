@@ -11,6 +11,13 @@ export class Tags {
 
     return tag;
   }
+
+  static async getCommitsAfterTag(tag: string): Promise<Array<string>> {
+    const commitHash = execSync(`git rev-list -n 1 ${tag}`).toString();
+    const commits = execSync(`git rev-list ${commitHash}..HEAD`).toString();
+
+    return commits.split('\n');
+  }
 }
 
 export default Tags;

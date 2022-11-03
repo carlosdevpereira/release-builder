@@ -4,7 +4,11 @@ import Tags from './tags';
 
 async function run() {
   try {
-    console.log('Latest tag: ', await Tags.getLatest());
+    const latestTag = await Tags.getLatest();
+    const commitsAfterTag = await Tags.getCommitsAfterTag(latestTag);
+
+    console.log('Latest tag: ', latestTag);
+    console.log('Commits after tag: ', commitsAfterTag);
   } catch (error: unknown) {
     if (!(error instanceof Error)) return;
 
