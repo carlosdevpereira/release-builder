@@ -2,7 +2,7 @@ import type { GetLatestTagResults } from '@/graphql/GetLatestTag.query';
 import GetLatestTagQuery from '@/graphql/GetLatestTag.query';
 import GithubService from './GithubService';
 
-export default class TagService {
+export class TagService {
   static async getLatestTag() {
     const result = await GithubService.graphql<GetLatestTagResults>(
       GetLatestTagQuery,
@@ -15,3 +15,5 @@ export default class TagService {
     console.log('Latest:', result.repository.refs.edges[0].node.name);
   }
 }
+
+export default TagService;

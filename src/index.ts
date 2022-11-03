@@ -1,10 +1,14 @@
 import './config';
 import * as core from '@actions/core';
-import TagService from './services/TagService';
+import Tags from './tags';
+import GithubConfig from './config/GithubConfig';
 
 async function run() {
   try {
-    TagService.getLatestTag();
+    console.log(
+      'Latest tag: ',
+      await Tags.getLatestForBranch(GithubConfig.branch)
+    );
   } catch (error: unknown) {
     if (!(error instanceof Error)) return;
 

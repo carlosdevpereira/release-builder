@@ -4,7 +4,7 @@ import { OctokitInstance } from '@/@types/OctokitInstance';
 
 const octokit: OctokitInstance = github.getOctokit(GithubConfig.token);
 
-export default class GithubService {
+export class GithubService {
   static rest: OctokitInstance['rest'] = octokit.rest;
 
   static async graphql<T>(query: string, variables: unknown) {
@@ -13,3 +13,5 @@ export default class GithubService {
     return result as T;
   }
 }
+
+export default GithubService;
