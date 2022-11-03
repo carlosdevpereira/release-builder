@@ -1,7 +1,6 @@
 import './config';
 import * as core from '@actions/core';
 import Tags from './tags';
-import GithubConfig from './config/GithubConfig';
 
 async function run() {
   try {
