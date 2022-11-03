@@ -1,8 +1,8 @@
 import * as github from '@actions/github';
-import Inputs from '@/config/Inputs';
+import GithubConfig from '@/config/GithubConfig';
 import { OctokitInstance } from '@/@types/OctokitInstance';
 
-const octokit: OctokitInstance = github.getOctokit(Inputs.github.token);
+const octokit: OctokitInstance = github.getOctokit(GithubConfig.token);
 
 export default class GithubService {
   static rest: OctokitInstance['rest'] = octokit.rest;

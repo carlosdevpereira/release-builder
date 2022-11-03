@@ -1,4 +1,4 @@
-import './config/Inputs';
+import './config';
 import * as core from '@actions/core';
 import TagService from './services/TagService';
 

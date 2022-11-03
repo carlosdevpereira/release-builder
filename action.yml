@@ -19,3 +19,13 @@ inputs:
   target-branch:
     description: "The name of the branch that will be targetted by release PR's."
     required: true
+  pre-release:
+    description: "Defines if the action should create a pre release or a final release. (Default: false)"
+    required: false
+    default: "false"
+  suffix:
+    description: "Defines the suffix appended to the end of the version tag. The default value for this parameter is false, except when pre-release is set to true, in that case the default value is '-rc'"
+    required: false
+  changelog-sections:
+    description: "Defines the sections that will be used to group the changes in the CHANGELOG.md and in the generated release in Github."
+    required: false
