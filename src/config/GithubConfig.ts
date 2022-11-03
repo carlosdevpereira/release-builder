@@ -1,5 +1,10 @@
 import * as core from '@actions/core';
+import * as github from '@actions/github';
 
 export default {
-  token: core.getInput('github-token', { required: true })
+  /** Github Authentication Token (Used to authenticate Octokit client) */
+  token: core.getInput('github-token', { required: true }),
+
+  /** Current branch that triggered the workflow run */
+  branch: github.context.ref.replace('refs/heads/', '')
 };
