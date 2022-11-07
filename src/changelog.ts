@@ -73,7 +73,8 @@ export class Changelog {
       const type = section.type[i];
       const typeMessages = messages.filter((message) => {
         return (
-          message.startsWith(`${type}: `) || message.match(`/^(${type}(.*): )/`)
+          message.startsWith(`${type}: `) ||
+          message.match(`/^(${type}\(.*\): )/`)
         );
       });
 
