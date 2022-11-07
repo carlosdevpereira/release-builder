@@ -14,6 +14,7 @@ async function run() {
 
     console.log('Latest tag: ', latestTag);
     console.log('Commits after tag: ', commitsAfterTag);
+    console.log('commit messages: ', commitMessages);
     console.log('Next release version', release.version);
   } catch (error: unknown) {
     if (!(error instanceof Error)) return;
