@@ -13,15 +13,18 @@ export class Tags {
   }
 
   static async getCommitsAfterTag(tag: string): Promise<Array<string>> {
+    execSync(`git fetch --prune --no-recurse-submodules --unshallow --depth=0`);
+
     const tagCommitHash = execSync(`git rev-list -n 1 ${tag}`)
       .toString()
       .replace(/\s/g, '');
-    console.log('tag commit hash', tagCommitHash);
 
-    const commits = execSync(`git rev-list ${tagCommitHash}..HEAD`).toString();
-    console.log('commits', commits);
+    const commits = execSync(`git rev-list ${tagCommitHash}..HEAD`)
+      .toString()
+      .split('\n')
+      .filter((len) => !!len);
 
-    return commits.split('\n').filter((len) => !!len);
+    return commits;
   }
 
   static async getLastNCommitMessages(offset: number): Promise<Array<string>> {
