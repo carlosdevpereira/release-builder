@@ -10,14 +10,24 @@ const DEFAULT_CHANGELOG_SECTIONS: Array<ChangelogSection> = [
   { title: '🚀 Features', type: ['feat', 'feature'], order: 2 },
   { title: '🚨 Bug fixes', type: ['fix', 'bugfix'], order: 3 },
   {
-    title: '👷 Maintenance',
-    type: ['chore', 'maintenance', 'refactor'],
+    title: '🏎️ Performance improvements',
+    type: ['perf', 'performance'],
     order: 4
   },
   {
     title: '📚 Documentation',
     type: ['docs'],
     order: 5
+  },
+  {
+    title: '👷 Maintenance',
+    type: ['chore', 'maintenance', 'refactor'],
+    order: 6
+  },
+  {
+    title: '🤖 Automations',
+    type: ['build', 'ci'],
+    order: 7
   }
 ];
 
