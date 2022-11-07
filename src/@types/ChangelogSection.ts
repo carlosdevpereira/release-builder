@@ -17,6 +17,7 @@ export type ConventionalType =
   | 'feature'
   | 'fix'
   | 'bugfix'
+  | 'hotfix'
   | 'test'
   | 'docs'
   | 'chore'

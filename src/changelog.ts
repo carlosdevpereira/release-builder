@@ -40,14 +40,38 @@ export class Changelog {
   buildLog(messages: Array<string>) {
     let versionLog = `## [${this.nextVersion}](${this.repositoryUrl})`;
 
-    ChangelogConfig.sections.forEach((section: ChangelogSection) => {
+    for (let i = 0; i < ChangelogConfig.sections.length; i++) {
+      const section = ChangelogConfig.sections[i];
+      const sectionMessages = this.getSectionMessages(messages, section);
+
+      if (!sectionMessages) continue;
+
       versionLog += `\n\n### ${section.title}\n`;
-      versionLog += '\n* dummy commit message (@owner) (#commit-hash)';
-    });
+      sectionMessages.forEach((message) => {
+        versionLog += `\n* ${message} (@commit-owner) (#commit-hash)`;
+      });
+    }
 
     this.content.replace('# CHANGELOG\n\n', `# CHANGELOG\n\n${versionLog}`);
 
     return this;
+  }
+
+  getSectionMessages(messages: Array<string>, section: ChangelogSection) {
+    const sectionMessages = [];
+
+    for (let i = 0; i < section.type.length; i++) {
+      const type = section.type[i];
+      const typeMessages = messages.filter((message) => {
+        return (
+          message.startsWith(`${type}: `) || message.match(`/^(${type}(.*): )/`)
+        );
+      });
+
+      sectionMessages.push(...typeMessages);
+    }
+
+    return sectionMessages;
   }
 
   save() {
