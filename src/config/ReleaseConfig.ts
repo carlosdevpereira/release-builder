@@ -8,5 +8,22 @@ export default {
   isPreRelease: core.getInput('pre-release', { required: false }) === 'true',
 
   /** Defines what branch will be the target of release pull requests */
-  targetBranch: core.getInput('target-branch', { required: true })
+  targetBranch: core.getInput('target-branch', { required: true }),
+
+  validCommitTypes: [
+    'feat',
+    'feature',
+    'fix',
+    'bugfix',
+    'test',
+    'docs',
+    'chore',
+    'maintenance',
+    'refactor',
+    'build',
+    'style',
+    'ci',
+    'perf',
+    'performance'
+  ]
 };

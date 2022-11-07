@@ -1,9 +1,8 @@
 import { execSync } from 'node:child_process';
-import GithubConfig from './config/GithubConfig';
 import VersionConfig from './config/VersionConfig';
 
 export class Tags {
-  static async getLatest() {
+  static async getLatest(): Promise<string> {
     execSync(`git fetch --all --tags`);
 
     const tag = execSync(
@@ -14,16 +13,25 @@ export class Tags {
   }
 
   static async getCommitsAfterTag(tag: string): Promise<Array<string>> {
-    const headCommitHash = GithubConfig.head;
     const tagCommitHash = execSync(`git rev-list -n 1 ${tag}`)
       .toString()
       .replace(/\s/g, '');
 
-    const commits = execSync(
-      `git rev-list ${tagCommitHash}..${headCommitHash}`
-    ).toString();
+    const commits = execSync(`git rev-list ${tagCommitHash}..HEAD`)
+      .toString()
+      .split('\n')
+      .filter((len) => !!len);
 
-    return commits.split('\n');
+    return commits;
+  }
+
+  static async getLastNCommitMessages(offset: number): Promise<Array<string>> {
+    const messages = execSync(`git log -n ${offset} --pretty=format:%s`)
+      .toString()
+      .split('\n')
+      .filter((len) => !!len);
+
+    return messages;
   }
 }
 
