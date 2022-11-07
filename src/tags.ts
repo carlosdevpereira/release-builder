@@ -13,7 +13,7 @@ export class Tags {
   }
 
   static async getCommitsAfterTag(tag: string): Promise<Array<string>> {
-    execSync(`git fetch --prune --no-recurse-submodules --unshallow --depth=0`);
+    execSync(`git fetch --prune --no-recurse-submodules --unshallow`);
 
     const tagCommitHash = execSync(`git rev-list -n 1 ${tag}`)
       .toString()
