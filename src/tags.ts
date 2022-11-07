@@ -1,18 +1,18 @@
 import { execSync } from 'node:child_process';
-import VersionConfig from './config/VersionConfig';
+import ReleaseConfig from './config/ReleaseConfig';
 
 export class Tags {
   static async getLatest(): Promise<string> {
     execSync(`git fetch --all --tags`);
 
     const tag = execSync(
-      `git tag --sort=-taggerdate -l "v*.*.*${VersionConfig.suffix}" | head -n 1`
+      `git tag --sort=-taggerdate -l "v*.*.*${ReleaseConfig.suffix}" | head -n 1`
     ).toString();
 
     return tag;
   }
 
-  static async getCommitsAfterTag(tag: string): Promise<Array<string>> {
+  static async getCommitsAfter(tag: string): Promise<Array<string>> {
     execSync(`git fetch --prune --no-recurse-submodules --unshallow`);
 
     const tagCommitHash = execSync(`git rev-list -n 1 ${tag}`)
@@ -27,7 +27,7 @@ export class Tags {
     return commits;
   }
 
-  static async getLastNCommitMessages(offset: number): Promise<Array<string>> {
+  static async getLastNMessages(offset: number): Promise<Array<string>> {
     const messages = execSync(`git log -n ${offset} --pretty=format:%s`)
       .toString()
       .split('\n')

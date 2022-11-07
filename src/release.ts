@@ -1,32 +1,43 @@
-import semver, { ReleaseType } from 'semver';
+import semver from 'semver';
 import ReleaseConfig from './config/ReleaseConfig';
-import Version from './version';
 
 const MAJOR_CHANGE_IDENTIFIERS = ReleaseConfig.validCommitTypes;
 const MINOR_CHANGE_IDENTIFIERS = ['feat', 'feature'];
 
 export class Release {
-  /** Defines the type of release */
-  type: ReleaseType;
-
   /** Commit messages that compose the release */
   messages: Array<string>;
 
-  /** Defines the version of the release */
-  version: string;
+  /** Defines the latest release version */
+  latest: string;
 
-  constructor(messages: Array<string>) {
+  /** Defines the next release version that should be created */
+  nextVersion: string;
+
+  constructor(latest: string, messages: Array<string>) {
+    this.latest = latest;
     this.messages = messages;
-    this.type = this.hasBreakingChanges
-      ? 'major'
-      : this.hasMinorChanges
-      ? 'minor'
-      : 'patch';
+    this.nextVersion = this.getNextVersion();
+  }
 
-    const releaseVersion = semver.inc(Version.current, this.type);
-    if (!releaseVersion) throw new Error('Error calculating release version');
+  getNextVersion(): string {
+    let version;
 
-    this.version = releaseVersion.toString();
+    if (ReleaseConfig.isPreRelease) {
+      version = semver.inc(this.latest, 'prerelease', ReleaseConfig.suffix);
+    } else {
+      const releaseType = this.hasBreakingChanges
+        ? 'major'
+        : this.hasMinorChanges
+        ? 'minor'
+        : 'patch';
+
+      version = semver.inc(this.latest, releaseType);
+    }
+
+    if (!version) throw new Error('Error calculating release version');
+
+    return version;
   }
 
   get hasBreakingChanges() {
