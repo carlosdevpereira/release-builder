@@ -40,11 +40,18 @@ export class Changelog {
   buildLog(messages: Array<string>) {
     let versionLog = `## [${this.nextVersion}](${this.repositoryUrl})`;
 
+    console.log('building log for version: ', versionLog);
     for (let i = 0; i < ChangelogConfig.sections.length; i++) {
       const section = ChangelogConfig.sections[i];
       const sectionMessages = this.getSectionMessages(messages, section);
 
-      if (!sectionMessages) continue;
+      console.log(
+        'got: ',
+        sectionMessages.length,
+        ' messages for section: ',
+        section.title
+      );
+      if (!sectionMessages.length) continue;
 
       versionLog += `\n\n### ${section.title}\n`;
       sectionMessages.forEach((message) => {
@@ -52,7 +59,10 @@ export class Changelog {
       });
     }
 
-    this.content.replace('# CHANGELOG\n\n', `# CHANGELOG\n\n${versionLog}`);
+    this.content = this.content.replace(
+      '# CHANGELOG\n\n',
+      `# CHANGELOG\n\n${versionLog}`
+    );
 
     return this;
   }
