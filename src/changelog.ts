@@ -74,7 +74,9 @@ export class Changelog {
       const typeMessages = messages.filter((message) => {
         return (
           message.startsWith(`${type}: `) ||
-          message.match(`/^(${type}\(.*\): )/`)
+          message.startsWith(`${type}!: `) ||
+          message.match(new RegExp(`^(${type}(.*): )`, 'gi')) ||
+          message.match(new RegExp(`^(${type}(.*)!: )`, 'gi'))
         );
       });
 
