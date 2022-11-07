@@ -16,15 +16,13 @@ export class Tags {
     const tagCommitHash = execSync(`git rev-list -n 1 ${tag}`)
       .toString()
       .replace(/\s/g, '');
+    console.log('tag commit hash', tagCommitHash);
 
-    console.log(
-      'commits:',
-      execSync(`git rev-list ${tagCommitHash}..HEAD`).toString()
-    );
     const commits = execSync(`git rev-list ${tagCommitHash}..HEAD`)
       .toString()
       .split('\n')
       .filter((len) => !!len);
+    console.log('commits', commits);
 
     return commits;
   }
