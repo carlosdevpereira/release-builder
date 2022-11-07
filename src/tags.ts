@@ -18,13 +18,10 @@ export class Tags {
       .replace(/\s/g, '');
     console.log('tag commit hash', tagCommitHash);
 
-    const commits = execSync(`git rev-list ${tagCommitHash}..HEAD`)
-      .toString()
-      .split('\n')
-      .filter((len) => !!len);
+    const commits = execSync(`git rev-list ${tagCommitHash}..HEAD`).toString();
     console.log('commits', commits);
 
-    return commits;
+    return commits.split('\n').filter((len) => !!len);
   }
 
   static async getLastNCommitMessages(offset: number): Promise<Array<string>> {
