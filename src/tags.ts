@@ -17,6 +17,10 @@ export class Tags {
       .toString()
       .replace(/\s/g, '');
 
+    console.log(
+      'commits:',
+      execSync(`git rev-list ${tagCommitHash}..HEAD`).toString()
+    );
     const commits = execSync(`git rev-list ${tagCommitHash}..HEAD`)
       .toString()
       .split('\n')
