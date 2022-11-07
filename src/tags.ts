@@ -1,4 +1,5 @@
 import { execSync } from 'node:child_process';
+import GithubConfig from './config/GithubConfig';
 import VersionConfig from './config/VersionConfig';
 
 export class Tags {
@@ -14,7 +15,9 @@ export class Tags {
 
   static async getCommitsAfterTag(tag: string): Promise<Array<string>> {
     const commitHash = execSync(`git rev-list -n 1 ${tag}`).toString();
-    const commits = execSync(`git rev-list ${commitHash}..HEAD`).toString();
+    const commits = execSync(
+      `git rev-list ${commitHash}..${GithubConfig.head}`
+    ).toString();
 
     return commits.split('\n');
   }

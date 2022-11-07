@@ -6,5 +6,8 @@ export default {
   token: core.getInput('github-token', { required: true }),
 
   /** Current branch that triggered the workflow run */
-  branch: github.context.ref.replace('refs/heads/', '')
+  branch: github.context.ref.replace('refs/heads/', ''),
+
+  /** Current git HEAD SHA */
+  head: github.context.sha
 };
