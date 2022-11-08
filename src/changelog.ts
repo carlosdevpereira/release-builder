@@ -65,14 +65,22 @@ export class Changelog {
 
     for (let i = 0; i < section.type.length; i++) {
       const type = section.type[i];
-      const typeMessages = messages.filter((message) => {
-        return (
-          message.startsWith(`${type}: `) ||
-          message.startsWith(`${type}!: `) ||
-          message.match(new RegExp(`^(${type}(.*): )`, 'gi')) ||
-          message.match(new RegExp(`^(${type}(.*)!: )`, 'gi'))
-        );
-      });
+
+      const typeMessages = messages
+        .filter(
+          (message) =>
+            message.startsWith(`${type}: `) ||
+            message.startsWith(`${type}!: `) ||
+            message.match(new RegExp(`^(${type}(.*): )`, 'gi')) ||
+            message.match(new RegExp(`^(${type}(.*)!: )`, 'gi'))
+        )
+        .map((message) => {
+          return message
+            .replace(`${type}: `, '')
+            .replace(`${type}!: `, '')
+            .replace(new RegExp(`^(${type}(.*): )`, 'gi'), '')
+            .replace(new RegExp(`^(${type}(.*)!: )`, 'gi'), '');
+        });
 
       sectionMessages.push(...typeMessages);
     }
