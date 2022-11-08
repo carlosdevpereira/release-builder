@@ -44,17 +44,11 @@ export class Changelog {
       const section = ChangelogConfig.sections[i];
       const sectionMessages = this.getSectionMessages(messages, section);
 
-      console.log(
-        'got: ',
-        sectionMessages.length,
-        ' messages for section: ',
-        section.title
-      );
       if (!sectionMessages.length) continue;
 
       versionLog += `\n\n### ${section.title}\n`;
       sectionMessages.forEach((message) => {
-        versionLog += `\n* ${message} (@commit-owner) (#commit-hash)`;
+        versionLog += `\n* ${message}`;
       });
     }
 
