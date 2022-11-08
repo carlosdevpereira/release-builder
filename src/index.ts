@@ -1,18 +1,21 @@
 import './config';
 import * as core from '@actions/core';
-import Tags from './tags';
 import Release from './release';
 import Version from './version';
 import Changelog from './changelog';
 import GithubConfig from './config/GithubConfig';
+import Git from './git';
+import ReleaseConfig from './config/ReleaseConfig';
 
 async function run() {
   try {
-    const latestVersion = Version.readFromFile();
+    Git.fetchAll();
 
-    const latestTag = await Tags.getLatest();
-    const commitsAfterTag = await Tags.getCommitsAfter(latestTag);
-    const commitMessages = await Tags.getLastNMessages(commitsAfterTag.length);
+    const latestTag = Git.getLatestTag(ReleaseConfig.suffix);
+    const commitsAfterTag = Git.listCommitsSince(latestTag);
+    const commitMessages = Git.listCommitMessages(commitsAfterTag.length);
+
+    const latestVersion = Version.readFromFile();
     const release = new Release(latestVersion, commitMessages);
 
     // Generate the CHANGELOG of the release
@@ -28,11 +31,12 @@ async function run() {
     // Update project version file with the new version
     new Version(release.nextVersion).save();
 
-    // Create a release branch based on the target branch defined as an input
-    // Update package.json with that new version
-    // Write to CHANGELOG.md
-    // Commit changes to the created branch
-    // Force push created branch
+    const commitMessage = `🚀 Release ${release.nextVersion}`;
+    const releaseBranchName = `release-builder--${release.nextVersion}`;
+    Git.checkoutBranch(releaseBranchName)
+      .commitAvailableChanges(commitMessage)
+      .forcePush(releaseBranchName);
+
     // Check if PR exists, otherwise creates the PR
   } catch (error: unknown) {
     if (!(error instanceof Error)) return;
