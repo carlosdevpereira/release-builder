@@ -21,7 +21,7 @@ export class NodeAdapter {
     const packageJson = JSON.parse(versionFileString);
     packageJson.version = version;
 
-    fs.writeFileSync(VERSION_FILE, JSON.stringify(packageJson));
+    fs.writeFileSync(VERSION_FILE, JSON.stringify(packageJson, null, 2));
   }
 }
 
