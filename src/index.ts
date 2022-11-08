@@ -4,6 +4,7 @@ import Tags from './tags';
 import Release from './release';
 import Version from './version';
 import Changelog from './changelog';
+import GithubConfig from './config/GithubConfig';
 
 async function run() {
   try {
@@ -18,6 +19,9 @@ async function run() {
     new Changelog()
       .setCurrentVersion(latestVersion)
       .setNextVersion(release.nextVersion)
+      .setRepositoryUrl(
+        `https://github.com/${GithubConfig.repository.owner}/${GithubConfig.repository.name}/compare/${latestVersion}..${release.nextVersion}`
+      )
       .buildLog(commitMessages)
       .save();
 
