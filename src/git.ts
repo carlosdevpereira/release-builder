@@ -2,9 +2,8 @@ import { execSync } from 'child_process';
 
 export class Git {
   static fetchAll() {
-    const gitCmd = 'git fetch --all --tags --prune --unshallow';
-
-    return execSync(gitCmd).toString();
+    execSync('git fetch --all --tags');
+    execSync(`git fetch --prune --no-recurse-submodules --unshallow`);
   }
 
   static getLatestTag(suffix: string) {
