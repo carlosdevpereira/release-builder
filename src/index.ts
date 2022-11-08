@@ -12,7 +12,8 @@ async function run() {
     Git.fetchAll();
 
     const latestTag = Git.getLatestTag(ReleaseConfig.suffix);
-    const commitsAfterTag = Git.listCommitsSince(latestTag);
+    const latestTagCommit = Git.getTagCommitHash(latestTag);
+    const commitsAfterTag = Git.listCommitsSince(latestTagCommit);
     const commitMessages = Git.listCommitMessages(commitsAfterTag.length);
 
     const latestVersion = Version.readFromFile();
