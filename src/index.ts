@@ -9,6 +9,7 @@ import ReleaseConfig from './config/ReleaseConfig';
 
 async function run() {
   try {
+    Git.setAuthorDetails();
     Git.fetchAll();
 
     const latestTag = Git.getLatestTag(ReleaseConfig.suffix);

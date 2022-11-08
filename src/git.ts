@@ -1,6 +1,12 @@
 import { execSync } from 'child_process';
+import GithubConfig from './config/GithubConfig';
 
 export class Git {
+  static setAuthorDetails() {
+    execSync(`git config --global user.name "${GithubConfig.author.name}"`);
+    execSync(`git config --global user.email "${GithubConfig.author.email}"`);
+  }
+
   static fetchAll() {
     execSync('git fetch --all --tags');
     execSync(`git fetch --prune --no-recurse-submodules --unshallow`);

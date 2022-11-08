@@ -15,5 +15,10 @@ export default {
   branch: github.context.ref.replace('refs/heads/', ''),
 
   /** Current git HEAD SHA */
-  head: github.context.sha
+  head: github.context.sha,
+
+  author: {
+    name: 'release-builder[bot]',
+    email: 'release-builder@carlosdevpereira.com'
+  }
 };
