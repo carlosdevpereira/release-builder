@@ -29,7 +29,7 @@ export class Tags {
 
   static async getLastNMessages(offset: number): Promise<Array<string>> {
     const messages = execSync(
-      `git log -n ${offset} --pretty=format:"%s \`%h\` _(%as)_"`
+      `git log -n ${offset} --pretty=format:"(%h) %s (%as)"`
     )
       .toString()
       .split('\n')
