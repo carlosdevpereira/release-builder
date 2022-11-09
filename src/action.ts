@@ -5,12 +5,12 @@ import GithubConfig from './config/GithubConfig';
 import ReleaseConfig from './config/ReleaseConfig';
 import Git from './git';
 import Release from './release';
-import GithubService, { Octokit } from './services/GithubService';
+import GithubService from './services/GithubService';
 import Version from './version';
 
 type ActionConfig = typeof Config;
 
-const RELEASE_BRANCH_NAME_BASE = 'release-builder--';
+const RELEASE_BRANCH_NAME_BASE = 'release-builder--v';
 
 export class Action {
   config: ActionConfig;
@@ -83,7 +83,7 @@ export class Action {
       throw new Error('Cannot commit changes without a release!');
     }
 
-    Git.commitAvailableChanges(`🚀 Release ${this.release.nextVersion}`);
+    Git.commitAvailableChanges(`🚀 Release v${this.release.nextVersion}`);
 
     return this;
   }
@@ -117,7 +117,7 @@ export class Action {
         repo: this.config.github.repository.name,
         head: RELEASE_BRANCH_NAME_BASE + this.release.nextVersion,
         base: this.config.release.targetBranch,
-        title: `🚀 Release ${this.release.nextVersion}`,
+        title: `🚀 Release v${this.release.nextVersion}`,
         body: this.changelog?.content
       });
     } else {
@@ -128,7 +128,7 @@ export class Action {
         body: this.changelog?.content,
         head: RELEASE_BRANCH_NAME_BASE + this.release.nextVersion,
         base: this.config.release.targetBranch,
-        title: `🚀 Release ${this.release.nextVersion}`
+        title: `🚀 Release v${this.release.nextVersion}`
       });
     }
   }
