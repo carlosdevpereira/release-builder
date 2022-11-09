@@ -1,17 +1,6 @@
 import { execSync } from 'child_process';
-import GithubConfig from './config/GithubConfig';
 
 export class Git {
-  static setAuthorDetails() {
-    execSync(`git config --global user.name "${GithubConfig.author.name}"`);
-    execSync(`git config --global user.email "${GithubConfig.author.email}"`);
-  }
-
-  static fetchAll() {
-    execSync('git fetch --all --tags');
-    execSync(`git fetch --prune --no-recurse-submodules --unshallow`);
-  }
-
   static getLatestTag(suffix: string) {
     const gitCmd = `git tag --sort=-taggerdate -l "v*.*.*${suffix}"`;
 
@@ -19,18 +8,24 @@ export class Git {
   }
 
   static getTagCommitHash(tag: string) {
-    return execSync(`git rev-list -n 1 ${tag}`).toString().replace(/\s/g, '');
+    const gitCmd = `git rev-list -n 1 ${tag}`;
+
+    return execSync(gitCmd).toString().replace(/\s/g, '');
   }
 
-  static listCommitsSince(sinceHash: string) {
-    return execSync(`git rev-list ${sinceHash}..HEAD`)
+  static listCommitsSince(tag: string) {
+    const gitCmd = `git rev-list ${tag}..HEAD`;
+
+    return execSync(gitCmd)
       .toString()
       .split('\n')
       .filter((len) => !!len);
   }
 
-  static listCommitMessages(offset: number) {
-    return execSync(`git log -n ${offset} --pretty=format:"%s (%h) (%as)"`)
+  static listLatestNCommitMessages(offset: number) {
+    const gitCmd = `git log -n ${offset} --pretty=format:"%s (%h) (%as)"`;
+
+    return execSync(gitCmd)
       .toString()
       .split('\n')
       .filter((len) => !!len);
