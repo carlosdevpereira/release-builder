@@ -98,19 +98,39 @@ export class Action {
     return this;
   }
 
-  public async createReleasePullRequest() {
+  public async createOrUpdateReleasePullRequest() {
     if (!this.release) {
       throw new Error('Cannot create a pull request without a release!');
     }
 
-    await GithubService.rest.pulls.create({
+    const pullRequest = await GithubService.rest.pulls.list({
       owner: this.config.github.repository.owner,
       repo: this.config.github.repository.name,
-      head: RELEASE_BRANCH_NAME_BASE + this.release.nextVersion,
       base: this.config.release.targetBranch,
-      title: `🚀 Release ${this.release.nextVersion}`,
-      body: this.changelog?.content
+      head: RELEASE_BRANCH_NAME_BASE + this.release.nextVersion,
+      state: 'open'
     });
+
+    if (pullRequest.data.length === 0) {
+      await GithubService.rest.pulls.create({
+        owner: this.config.github.repository.owner,
+        repo: this.config.github.repository.name,
+        head: RELEASE_BRANCH_NAME_BASE + this.release.nextVersion,
+        base: this.config.release.targetBranch,
+        title: `🚀 Release ${this.release.nextVersion}`,
+        body: this.changelog?.content
+      });
+    } else {
+      await GithubService.rest.pulls.update({
+        owner: this.config.github.repository.owner,
+        repo: this.config.github.repository.name,
+        pull_number: pullRequest.data[0].number,
+        body: this.changelog?.content,
+        head: RELEASE_BRANCH_NAME_BASE + this.release.nextVersion,
+        base: this.config.release.targetBranch,
+        title: `🚀 Release ${this.release.nextVersion}`
+      });
+    }
   }
 
   // @private

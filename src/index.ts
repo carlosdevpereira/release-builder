@@ -11,7 +11,7 @@ async function run() {
       .createReleaseBranch()
       .commitAvailableChanges()
       .pushReleaseBranch()
-      .createReleasePullRequest();
+      .createOrUpdateReleasePullRequest();
   } catch (error: unknown) {
     if (!(error instanceof Error)) return;
 
