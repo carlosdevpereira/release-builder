@@ -1,6 +1,6 @@
 {
   "name": "release-builder",
-  "version": "1.0.0",
+  "version": "1.0.1--rc.0",
   "description": "Creates release pull requests that, when merged, generate a release with a proper tag and changelog.",
   "main": "dist/index.js",
   "packageManager": "pnpm@7.13.2",
