@@ -38,6 +38,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           release-type: node
-          strategy: release-only
+          release-strategy: release-only
           pre-release: true
           target-branch: main
