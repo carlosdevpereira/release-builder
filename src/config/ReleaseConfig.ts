@@ -7,9 +7,20 @@ const IS_PRE_RELEASE =
 /** Defines the pre-release suffix (pre-release identifier) */
 const SUFFIX = core.getInput('suffix');
 
+/**
+ * Defines what release strategies are available
+ *
+ * `pull-request` - Creates release pull request with release version bump.\
+ * `release-only` - Creates/updates a github release draft when new changes are added to the release branch.
+ */
+export const VALID_RELEASE_STRATEGIES = ['pull-request', 'release-only'];
+
 export default {
   /** What type of project the action is running on (node/text/...) */
   type: core.getInput('release-type', { required: true }),
+
+  /** What type of release strategy will be used (pull-request, release-only) */
+  strategy: core.getInput('release-strategy'),
 
   /** Defines if the action should generate a pre release or not */
   isPreRelease: IS_PRE_RELEASE,

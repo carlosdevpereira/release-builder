@@ -78,6 +78,40 @@ export class Action {
     return this;
   }
 
+  public async createOrUpdateDraftRelease() {
+    if (!this.release) {
+      throw new Error('Cant create or update draft release without a release!');
+    }
+
+    try {
+      const release = await GithubService.rest.repos.getReleaseByTag({
+        owner: this.config.github.repository.owner,
+        repo: this.config.github.repository.name,
+        tag: `v${this.release.nextVersion}`
+      });
+
+      await GithubService.rest.repos.updateRelease({
+        owner: this.config.github.repository.owner,
+        repo: this.config.github.repository.name,
+        release_id: release.data.id,
+        body: this.changelog?.releaseNotes
+      });
+    } catch (error) {
+      await GithubService.rest.repos.createRelease({
+        owner: this.config.github.repository.owner,
+        repo: this.config.github.repository.name,
+        tag_name: `v${this.release.nextVersion}`,
+        draft: true,
+        target_commitish: this.config.release.targetBranch,
+        prerelease: this.config.release.isPreRelease,
+        name: this.config.release.isPreRelease
+          ? `v${this.release.nextVersion} 🐣`
+          : `v${this.release.nextVersion} 🚀`,
+        body: this.changelog?.releaseNotes
+      });
+    }
+  }
+
   public commitAvailableChanges() {
     if (!this.release) {
       throw new Error('Cannot commit changes without a release!');

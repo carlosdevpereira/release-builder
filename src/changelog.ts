@@ -6,6 +6,7 @@ const CHANGELOG_FILE_PATH = './CHANGELOG.md';
 
 export class Changelog {
   content: string;
+  releaseNotes?: string;
 
   currentVersion?: string;
   nextVersion?: string;
@@ -38,7 +39,7 @@ export class Changelog {
   }
 
   buildLog(messages: Array<string>) {
-    let versionLog = `## [${this.nextVersion}](${this.repositoryUrl})`;
+    this.releaseNotes = `## [${this.nextVersion}](${this.repositoryUrl})`;
 
     for (let i = 0; i < ChangelogConfig.sections.length; i++) {
       const section = ChangelogConfig.sections[i];
@@ -46,15 +47,15 @@ export class Changelog {
 
       if (!sectionMessages.length) continue;
 
-      versionLog += `\n\n### ${section.title}\n`;
+      this.releaseNotes += `\n\n### ${section.title}\n`;
       sectionMessages.forEach((message) => {
-        versionLog += `\n* ${message}`;
+        this.releaseNotes += `\n* ${message}`;
       });
     }
 
     this.content = this.content.replace(
       '# CHANGELOG\n\n',
-      `# CHANGELOG\n\n${versionLog}`
+      `# CHANGELOG\n\n${this.releaseNotes}`
     );
 
     return this;
@@ -89,8 +90,6 @@ export class Changelog {
   }
 
   save() {
-    console.log('Will save:');
-    console.log(this.content);
     writeFileSync(CHANGELOG_FILE_PATH, this.content, 'utf-8');
   }
 }
